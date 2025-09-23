@@ -18,7 +18,7 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 ## Features Backend
 
 - config file to handle
-  - base url
+  - base url (not tested behind nginx)
   - name of the log file
   - name of the style- and template file
   - byte limit for upload
