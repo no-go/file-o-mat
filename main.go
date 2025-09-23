@@ -208,7 +208,7 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Header().Set("Content-Type", "text/css")
-		fmt.Fprintf(w, string(content))
+		w.Write(content)
 		return
 	}
 
@@ -299,7 +299,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, status int, message stri
 	tmpl, err := template.ParseFiles(filepath.Join("etc", cfg.Template))
 	if err != nil {
 		slog.Error(err.Error())
-		fmt.Fprintf(w, translations["tmplErr"])
+		fmt.Fprint(w, translations["tmplErr"])
 		return
 	}
 
@@ -320,7 +320,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, status int, message stri
 	err = tmpl.Execute(w, data)
 	if err != nil {
 		slog.Error(err.Error())
-		fmt.Fprintf(w, translations["tmplErr"])
+		fmt.Fprint(w, translations["tmplErr"])
 	}
 }
 
