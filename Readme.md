@@ -35,14 +35,14 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 
 - goDoc
 - examples and unit tests
-- build via CI/CD?
-- better Login/Password config handling
+- build and test via CI/CD
+- User management: better password configuration
+- clean code for handling folder, not allowed paths and file requests (actual a bit chaotic)
 
-## Missing
+## Missing (for ever)
 
 - create/delete folders as admin via WebGUI
 - display static images
-- clean code for handling folder, not allowed paths and file requests (actual a bit chaotic)
 
 ## User management
 
