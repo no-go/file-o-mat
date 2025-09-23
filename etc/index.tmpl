@@ -1,0 +1,38 @@
+<!DOCTYPE html><html>
+	<head>
+		<title>{{.Title}}</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="{{.BaseURL}}?{{.Style}}" type="text/css">
+	</head>
+	<body>
+		<div>
+			{{if .IsAdmin}}
+			<form action="{{.Folder}}" method="post" enctype="multipart/form-data">
+				<input type="file" name="file" />
+				<input type="submit" value="{{.UploadText}}" />
+				</form>
+			{{end}}
+			<pre>{{.Message}}</pre>
+			<a href="{{.BaseURL}}" class="nav">[{{.HomeText}}]</a> &nbsp;
+			<a href="javascript:void(0);" onclick="logout()" class="nav">[{{.LogoutText}}]</a>
+		</div>
+
+		<script>
+			function logout() {
+				fetch('{{.BaseURL}}?logout', {
+					method: 'GET',
+					credentials: 'include'
+				})
+				.then(response => {
+					if (response.status === 401) {
+						alert("{{.LoggedOutText}}");
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+			}
+		</script>
+	</body>
+</html>

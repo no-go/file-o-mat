@@ -1,0 +1,14 @@
+{
+	"limitHint": "Upload limit is %d Bytes",
+	"postErr": "Error receiving file data",
+	"newErr": "Error creating file",
+	"saveErr": "Error saving file",
+	"pathErr": "The path %s is not allowed",
+	"readErr": "Error reading folder",
+	"tmplErr": "Error loading the page template",
+	"delLink": "delete",
+	"homeLink": "home",
+	"uploadBtn": "upload",
+	"logoutLink": "logout",
+	"loggedOut": "Logged out"
+}

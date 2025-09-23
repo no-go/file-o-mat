@@ -1,0 +1,14 @@
+{
+	"data_folder": "upload",
+	"log_file": "app.log",
+	"base_url": "/",
+	"style": "c64",
+	"template": "index.tmpl",
+	"port": "60081",
+	"admin_user": "admin",
+	"lang": "en",
+	"upload_max": 10485760,
+	"max_failed": 8,
+	"block_duration": "30m",
+	"check_duration": "5m"
+}
