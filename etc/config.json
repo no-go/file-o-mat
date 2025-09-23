@@ -1,7 +1,7 @@
 {
 	"data_folder": "upload",
 	"log_file": "app.log",
-	"base_url": "/",
+	"base_url": "/fileomat/",
 	"style": "c64",
 	"template": "index.tmpl",
 	"port": "60081",
