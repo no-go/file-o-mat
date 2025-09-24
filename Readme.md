@@ -52,6 +52,7 @@ Use this hash in `main.go` to set a password or add a user.
 See `etc/config.json` which username is the `admin_user`.
 
 Default user: tux, password tux
+
 Default user: admin, password toor
 
 ## Install and run
