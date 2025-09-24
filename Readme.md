@@ -4,7 +4,7 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 
 ![Admin can upload and delete files](Screenshot.png)
 
-## Features WebGUI
+## Features webGUI
 
 - Normal User
   - Login
@@ -15,10 +15,10 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
   - upload files
   - delete files
 
-## Features Backend
+## Features backend
 
 - config file to handle...
-  - base url and link-prefix (not tested behind nginx)
+  - base url and link-prefix
   - name of the log file
   - name of the style- and template file
   - byte limit for upload
@@ -71,6 +71,22 @@ Default login see [User management](#user-management).
 
 - To run as "Deamon" the usage of *nohup* is a nice hack: `nohup go run . >>/dev/null 2>>/dev/null &`
 - Stop it with: `killall fileomat`
+
+## nginx and location is subfolder
+
+If you want to run behind nginx and inside the subfolder *fileomat* (the default):
+
+```
+location /fileomat/ {
+	proxy_pass http://localhost:60081/fileomat/;
+	proxy_set_header Host $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+Without the `/fileomat/` inside `proxy_pass` you got trouble in link- an folder handling!
 
 ## License
 
