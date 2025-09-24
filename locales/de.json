@@ -1,0 +1,14 @@
+{
+	"limitHint": "Maximal %d Bytes können hochgeladen werden.",
+	"postErr": "Fehler beim Empfangen der Datei.",
+	"newErr": "Fehler beim Erzeugen der Datei auf dem Server.",
+	"saveErr": "Fehler beim Speichern der Datei.",
+	"pathErr": "Der resultierende Pfad %s ist nicht erwünscht.",
+	"readErr": "Fehler beim Lesen des Ordners.",
+	"tmplErr": "Fehler beim Laden des Templates.",
+	"delLink": "löschen",
+	"homeLink": "Startseite",
+	"uploadBtn": "hochladen",
+	"logoutLink": "ausloggen",
+	"loggedOut": "Erfolgreich ausgeloggt."
+}

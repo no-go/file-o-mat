@@ -7,6 +7,7 @@ import (
 type Index struct {
 	Title         string
 	BaseURL       string
+	LinkPrefix    string
 	Style         string
 	Message       template.HTML
 	HomeText      string

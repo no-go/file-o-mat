@@ -10,6 +10,7 @@ type Config struct {
 	DataFolder        string       `json:"data_folder"`
 	LogFile           string       `json:"log_file"`
 	BaseURL           string       `json:"base_url"`
+	LinkPrefix        string       `json:"link_prefix"`
 	Style             string       `json:"style"`
 	Template          string       `json:"template"`
 	Port              string       `json:"port"`

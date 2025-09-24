@@ -3,24 +3,24 @@
 		<title>{{.Title}}</title>
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="{{.BaseURL}}?{{.Style}}" type="text/css">
+		<link rel="stylesheet" href="{{.BaseURL}}{{.LinkPrefix}}?{{.Style}}" type="text/css">
 	</head>
 	<body>
 		<div>
 			{{if .IsAdmin}}
-			<form action="{{.Folder}}" method="post" enctype="multipart/form-data">
+			<form action="{{.BaseURL}}{{.LinkPrefix}}{{.Folder}}" method="post" enctype="multipart/form-data">
 				<input type="file" name="file" />
 				<input type="submit" value="{{.UploadText}}" />
-				</form>
+			</form>
 			{{end}}
 			<pre>{{.Message}}</pre>
-			<a href="{{.BaseURL}}" class="nav">[{{.HomeText}}]</a> &nbsp;
+			<a href="{{.BaseURL}}{{.LinkPrefix}}" class="nav">[{{.HomeText}}]</a> &nbsp;
 			<a href="javascript:void(0);" onclick="logout()" class="nav">[{{.LogoutText}}]</a>
 		</div>
 
 		<script>
 			function logout() {
-				fetch('{{.BaseURL}}?logout', {
+				fetch('{{.BaseURL}}{{.LinkPrefix}}?logout', {
 					method: 'GET',
 					credentials: 'include'
 				})

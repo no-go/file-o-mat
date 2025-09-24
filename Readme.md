@@ -17,8 +17,8 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 
 ## Features Backend
 
-- config file to handle
-  - base url (not tested behind nginx)
+- config file to handle...
+  - base url and link-prefix (not tested behind nginx)
   - name of the log file
   - name of the style- and template file
   - byte limit for upload
@@ -36,13 +36,13 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 - goDoc
 - examples and unit tests
 - build and test via CI/CD
-- User management: better password configuration
 - clean code for handling folder, not allowed paths and file requests (actual a bit chaotic)
 
 ## Missing (for ever)
 
 - create/delete folders as admin via WebGUI
 - display static images
+- User management: better password configuration
 
 ## User management
 
@@ -54,6 +54,23 @@ See `etc/config.json` which username is the `admin_user`.
 Default user: tux, password tux
 Default user: admin, password toor
 
-# License
+## Install and run
+
+Code tested with debian trixie. Install go 1.24!
+
+```
+git clone https://github.com/no-go/file-o-mat.git
+cd file-o-mat
+go mod tidy
+go run .
+```
+
+You should be able to open `http://localhost:60081/fileomat/` in your browser.
+Default login see [User management](#user-management).
+
+- To run as "Deamon" the usage of *nohup* is a nice hack: `nohup go run . >>/dev/null 2>>/dev/null &`
+- Stop it with: `killall fileomat`
+
+## License
 
 It is under http://unlicense.org

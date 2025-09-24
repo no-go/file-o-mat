@@ -24,9 +24,9 @@ import (
 type Translations map[string]string
 
 const (
-	DELETE_TMPL = "<a href=\"%s?delete\">[%s]</a>    "
-	FOLDER_TMPL = "<a href=\"%s/\">%s &gt;</a>\n"
-	FILE_TMPL   = "<a href=\"%s\">%s</a> (%0.2f kB)\n"
+	DELETE_TMPL = "<a href=\"%s%s%s?delete\">[%s]</a>    "
+	FOLDER_TMPL = "<a href=\"%s%s%s/\">%s &gt;</a>\n"
+	FILE_TMPL   = "<a href=\"%s%s%s\">%s</a> (%0.2f kB)\n"
 )
 
 var (
@@ -97,7 +97,7 @@ func sanitizeFilename(filename string) string {
 func handleFilePost(w http.ResponseWriter, r *http.Request, username string) bool {
 	r.Body = http.MaxBytesReader(w, r.Body, cfg.UploadMax)
 	lastSlashIndex := strings.LastIndex(r.URL.Path, "/")
-	dir := r.URL.Path[len(cfg.BaseURL):lastSlashIndex+1]
+	dir := r.URL.Path[len(cfg.BaseURL)+len(cfg.LinkPrefix):lastSlashIndex+1]
 
 	err := r.ParseMultipartForm(cfg.UploadMax)
 	if err != nil {
@@ -142,6 +142,16 @@ func handleFilePost(w http.ResponseWriter, r *http.Request, username string) boo
 	return true
 }
 
+
+
+
+
+
+
+
+
+
+
 func reqHandler(w http.ResponseWriter, r *http.Request) {
 	ip := r.RemoteAddr
 
@@ -172,17 +182,17 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// extract path from request
-	filePath := filepath.Join(cfg.DataFolder, r.URL.Path[len(cfg.BaseURL):])
-	cleanPath := filepath.Clean(filePath)
-	lastSlashIndex := strings.LastIndex(r.URL.Path, "/")
-	dir := r.URL.Path[:lastSlashIndex+1]
+	filePath := r.URL.Path[len(cfg.BaseURL)+len(cfg.LinkPrefix):]
+	cleanPath := filepath.Clean(filepath.Join(cfg.DataFolder, filePath))
+	lastSlashIndex := strings.LastIndex(filePath, "/")
+	dir := filePath[:lastSlashIndex+1]
 
 	// post a file?
 	if r.Method == http.MethodPost && isAdmin(username) {
 		if !handleFilePost(w, r, username) {
 			return
 		}
-		cleanPath = filepath.Join(cfg.DataFolder, dir[len(cfg.BaseURL):])
+		cleanPath = filepath.Join(cfg.DataFolder, dir)
 	}
 
 	if !isPathAllowed(cleanPath) {
@@ -223,7 +233,7 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 	if (r.URL.RawQuery == "delete") && isAdmin(username) {
 		os.Remove(cleanPath)
 		slog.Info("delete file " + cleanPath)
-		cleanPath = filepath.Join(cfg.DataFolder, dir[len(cfg.BaseURL):])
+		cleanPath = filepath.Join(cfg.DataFolder, dir)
 	}
 
 	// get file infos
@@ -249,6 +259,8 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 					fmt.Fprintf(
 					&output,
 					DELETE_TMPL,
+					cfg.BaseURL,
+					cfg.LinkPrefix,
 					dir + fileName,
 					translations["delLink"])
 				}
@@ -256,6 +268,8 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintf(
 					&output,
 					FILE_TMPL,
+					cfg.BaseURL,
+					cfg.LinkPrefix,
 					dir + fileName,
 					fileName,
 					fileSize)
@@ -263,6 +277,8 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintf(
 					&output,
 					FOLDER_TMPL,
+					cfg.BaseURL,
+					cfg.LinkPrefix,
 					dir + fileName,
 					fileName)
 			}
@@ -277,14 +293,18 @@ func reqHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, cleanPath)
 }
 
+
+
+
+
 // only filePath are allowed, which are inside the actual application folder
-func isPathAllowed(filePath string) bool {
+func isPathAllowed(path string) bool {
 	absBaseDir, err := filepath.Abs(cfg.DataFolder)
 	if err != nil {
 		return false
 	}
 
-	absFilePath, err := filepath.Abs(filePath)
+	absFilePath, err := filepath.Abs(path)
 	if err != nil {
 		return false
 	}
@@ -307,6 +327,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, status int, message stri
 	data := Index{
 		Title:            username,
 		BaseURL:          cfg.BaseURL,
+		LinkPrefix:       cfg.LinkPrefix,
 		Style:            cfg.Style,
 		Message:          template.HTML(message),
 		HomeText:         translations["homeLink"],
@@ -314,7 +335,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, status int, message stri
 		IsAdmin:          isAdmin(username),
 		UploadText:       translations["uploadBtn"],
 		LoggedOutText:    translations["loggedOut"],
-		Folder:           r.URL.Path[:lastSlashIndex+1],
+		Folder:           r.URL.Path[len(cfg.BaseURL)+len(cfg.LinkPrefix):lastSlashIndex+1],
 	}
 
 	err = tmpl.Execute(w, data)
@@ -335,7 +356,6 @@ func cleanup() {
 			}
 		}
 		mu.Unlock()
-		slog.Info("cleanup: done.")
 	}
 }
 
@@ -379,7 +399,7 @@ func main() {
 	go cleanup()
 
 	// configure and start server
-	http.HandleFunc(cfg.BaseURL, reqHandler)
+	http.HandleFunc("/", reqHandler)
 
 	server := &http.Server{Addr: ":" + cfg.Port, Handler: http.DefaultServeMux}
 
