@@ -1,4 +1,4 @@
-# Fileomat
+# File-o-mat
 
 Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is used!
 

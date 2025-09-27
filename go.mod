@@ -1,4 +1,4 @@
-module wertfrei.art/fileomat
+module github.com/no-go/file-o-mat
 
 go 1.24.0
 

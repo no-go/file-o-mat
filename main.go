@@ -13,7 +13,7 @@ import (
 	"syscall"
 
 	"golang.org/x/crypto/bcrypt"
-	"wertfrei.art/fileomat/core"
+	"github.com/no-go/file-o-mat/core"
 )
 
 func main() {
