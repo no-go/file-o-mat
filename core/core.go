@@ -3,6 +3,8 @@
 //  - ?xxxx: loads `etc/xxxx.css`, if xxxx is set as style in `etc/config.json`
 //  - ?delete: delete a file given by the GET before "?"
 //  - ?logout: logs out = give a StatusUnauthorized to the client
+//
+// See [Readme.md](https://github.com/no-go/file-o-mat) for examples, hints and ideas.
 package core
 
 import (
@@ -32,18 +34,16 @@ const (
 	FILE_TMPL   = "<a href=\"%s%s%s\">%s</a> (%0.2f kB)\n"
 )
 
-// This map stores the logins. To get a hash do `go run . secure_password_here`
-// to get a valid password hash.
-var users = map[string]string {
-	"admin": "$2a$10$m07vqvz.1a/8BXMj.15sme4l4O0/0uX3bySMJcE0d2TlykshrkFku",
-	"tux": "$2a$10$MuUfb3OxA.U.M7Ea/cNNkOWfEcUihiae/wQwquArHMHa5gpbFsjbq",
-}
-
-var failedLogins = make(map[string]int)           // Ip counter for login fails.
-var banList      = make(map[string]time.Time)     // Holds banned ip and how log they are banned.
-var mu           sync.Mutex                       // Semaphore to sync requests on maps.
-var translations Translations                     // The map to hold a translation.
-var Cfg          *Config                          // Other important configs handled by `config.go` and `etc/config.json`.
+// Ip counter for login fails.
+var failedLogins = make(map[string]int)
+// Holds banned ip and how log they are banned.
+var banList      = make(map[string]time.Time)
+// Semaphore to sync requests on maps.
+var mu           sync.Mutex
+// The map to hold a translation.
+var translations Translations
+// Important configs handled by `config.go` and `etc/config.json`.
+var Cfg          *Config
 
 // function loadTranslations to load a initial translation from locales folder.
 func LoadTranslations(lang string) error {
@@ -64,9 +64,9 @@ func LoadTranslations(lang string) error {
 	return nil
 }
 
-// true, if password and login found in hash table `users`.
+// true, if password and login found in hash table Cfg.Users
 func checkPassword(username, password string) bool {
-	hashedPassword, exists := users[username]
+	hashedPassword, exists := Cfg.Users[username]
 	if !exists {
 		return false
 	}

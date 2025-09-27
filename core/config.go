@@ -8,19 +8,20 @@ import (
 
 // a struct to hold the data of `etc/config.json`
 type Config struct {
-	DataFolder        string       `json:"data_folder"`
-	LogFile           string       `json:"log_file"`
-	BaseURL           string       `json:"base_url"`
-	LinkPrefix        string       `json:"link_prefix"`
-	Style             string       `json:"style"`
-	Template          string       `json:"template"`
-	Port              string       `json:"port"`
-	AdminUser         string       `json:"admin_user"`
-	Lang              string       `json:"lang"`
-	UploadMax         int64        `json:"upload_max"`
-	MaxFailed         int          `json:"max_failed"`
-	BlockDurationStr  string       `json:"block_duration"`
-	CheckDurationStr  string       `json:"check_duration"`
+	DataFolder        string            `json:"data_folder"`
+	LogFile           string            `json:"log_file"`
+	BaseURL           string            `json:"base_url"`
+	LinkPrefix        string            `json:"link_prefix"`
+	Style             string            `json:"style"`
+	Template          string            `json:"template"`
+	Port              string            `json:"port"`
+	AdminUser         string            `json:"admin_user"`
+	Lang              string            `json:"lang"`
+	UploadMax         int64             `json:"upload_max"`
+	MaxFailed         int               `json:"max_failed"`
+	BlockDurationStr  string            `json:"block_duration"`
+	CheckDurationStr  string            `json:"check_duration"`
+	Users             map[string]string `json:"users"`
 }
 
 // It is important to use this function instead of `BlockDurationStr`. Otherwise "30m" maybe 30 us and not 30 minutes.

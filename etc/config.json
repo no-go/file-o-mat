@@ -11,5 +11,9 @@
 	"upload_max": 10485760,
 	"max_failed": 8,
 	"block_duration": "30m",
-	"check_duration": "5m"
+	"check_duration": "5m",
+	"users": {
+		"admin": "$2a$10$m07vqvz.1a/8BXMj.15sme4l4O0/0uX3bySMJcE0d2TlykshrkFku",
+		"tux": "$2a$10$MuUfb3OxA.U.M7Ea/cNNkOWfEcUihiae/wQwquArHMHa5gpbFsjbq"
+	}
 }
