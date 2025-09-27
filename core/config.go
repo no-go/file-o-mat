@@ -1,4 +1,4 @@
-package main
+package core
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// a struct to hold the data of `etc/config.json`
 type Config struct {
 	DataFolder        string       `json:"data_folder"`
 	LogFile           string       `json:"log_file"`
@@ -22,6 +23,7 @@ type Config struct {
 	CheckDurationStr  string       `json:"check_duration"`
 }
 
+// It is important to use this function instead of `BlockDurationStr`. Otherwise "30m" maybe 30 us and not 30 minutes.
 func (c *Config) BlockDuration() time.Duration {
 	dur, err := time.ParseDuration(c.BlockDurationStr)
 	if err != nil {
@@ -30,6 +32,8 @@ func (c *Config) BlockDuration() time.Duration {
 	return dur
 }
 
+// It is important to use this function instead of `CheckDurationStr`.
+// Otherwise "5m" maybe 5 us and not 5 minutes and the cleanup thread takes 100% cpu.
 func (c *Config) CheckDuration() time.Duration {
 	dur, err := time.ParseDuration(c.CheckDurationStr)
 	if err != nil {
@@ -38,6 +42,7 @@ func (c *Config) CheckDuration() time.Duration {
 	return dur
 }
 
+// It loads a given json file and tries to place its data inside the Config struct (and returns it or `nil` with error).
 func LoadConfig(filename string) (*Config, error) {
 	file, err := os.Open(filename)
 	if err != nil {

@@ -33,7 +33,6 @@ Fileomat is a simple system to share files online. Simple `WWW-Authenticate` is 
 
 ## ToDo
 
-- goDoc
 - examples and unit tests
 - build and test via CI/CD
 - clean code for handling folder, not allowed paths and file requests (actual a bit chaotic)
@@ -88,6 +87,16 @@ location /fileomat/ {
 ```
 
 Without the `/fileomat/` inside `proxy_pass` you got trouble in link- an folder handling!
+
+## Code documentation
+
+To see some inline comments and how the code works, use `godoc`.
+```
+go install golang.org/x/pkgsite/cmd/pkgsite@latest
+pkgsite
+```
+
+Open `http://localhost:8080` in your browser.
 
 ## License
 

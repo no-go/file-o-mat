@@ -1,3 +1,4 @@
 /etc/*.log
 /upload/
 go.sum
+/pkg/
