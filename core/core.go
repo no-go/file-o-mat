@@ -188,7 +188,15 @@ func ReqHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// extract path from request
-	filePath := r.URL.Path[len(Cfg.BaseURL)+len(Cfg.LinkPrefix):]
+	filePathIndex := len(Cfg.BaseURL) + len(Cfg.LinkPrefix)
+	if filePathIndex > len(r.URL.Path) {
+		slog.Error(
+			"get '" + r.URL.Path + 
+			"' does not fit into baseurl '" + Cfg.BaseURL +
+			"' with prefix '" + Cfg.LinkPrefix + "'")
+		return
+	}
+	filePath := r.URL.Path[filePathIndex:]
 	cleanPath := filepath.Clean(filepath.Join(Cfg.DataFolder, filePath))
 	lastSlashIndex := strings.LastIndex(filePath, "/")
 	dir := filePath[:lastSlashIndex+1]

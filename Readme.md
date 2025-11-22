@@ -84,11 +84,12 @@ Default login see [User management](#user-management).
 
 ## nginx and location is subfolder
 
-If you want to run behind nginx and inside the subfolder *fileomat* (the default):
+If you want to run behind nginx and inside URL subfolders like your-url.org*/apps/fileomat*:
 
 ```
-location /fileomat/ {
-	proxy_pass http://localhost:60081/fileomat/;
+location /apps/fileomat {
+    rewrite ^/apps/fileomat$ /apps/fileomat/ permanent;
+	proxy_pass http://localhost:60081;
 	client_max_body_size 10M;
 	proxy_set_header Host $host;
 	proxy_set_header X-Real-IP $remote_addr;
@@ -97,7 +98,7 @@ location /fileomat/ {
 }
 ```
 
-Without the `/fileomat/` inside `proxy_pass` you got trouble in link- an folder handling!
+In that case I set `"base_url": "/apps/fileomat/"` and empty `"link_prefix": ""` in my `etc/config.json`. 
 
 ## Code documentation
 
